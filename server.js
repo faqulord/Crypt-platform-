@@ -5,19 +5,24 @@ const path = require('path');
 app.set('view engine', 'ejs');
 app.use(express.static('public'));
 
+// CSOMAGOK ADATAI
+const plans = [
+    { level: 1, name: "ALPHA", price: 100, daily: 2, color: "#00ff41" },
+    { level: 2, name: "BETA", price: 500, daily: 12, color: "#00e5ff" },
+    { level: 3, name: "GAMMA", price: 2000, daily: 55, color: "#7000ff" },
+    { level: 4, name: "DELTA", price: 5000, daily: 150, color: "#ff0055" },
+    { level: 5, name: "OMEGA", price: 10000, daily: 350, color: "#ffd700" }
+];
+
 app.get('/', (req, res) => {
-    res.send(`
-        <body style="background: #000; color: #00ff41; font-family: monospace; display: flex; align-items: center; justify-content: center; height: 100vh; margin: 0;">
-            <div style="text-align: center; border: 1px solid #00ff41; p: 40px; border-radius: 20px; padding: 50px; box-shadow: 0 0 20px rgba(0,255,65,0.2);">
-                <h1 style="letter-spacing: 5px;">SKYHIGH ARBITRAGE</h1>
-                <p style="color: #555;">SYSTEM INITIALIZING... [v1.0.0]</p>
-                <div style="margin-top: 20px; font-size: 12px; color: #00ff41; opacity: 0.7;">A platform fejlesztés alatt áll.</div>
-            </div>
-        </body>
-    `);
+    res.render('index', { plans });
+});
+
+app.get('/dashboard', (req, res) => {
+    // Demo felhasználó az építés alatt
+    const user = { fullname: "Operátor", balance: 1250.50, vipLevel: 2 };
+    res.render('dashboard', { user, plans });
 });
 
 const PORT = process.env.PORT || 8080;
-app.listen(PORT, () => {
-    console.log(`⚡ Arbitrage Server running on port ${PORT}`);
-});
+app.listen(PORT, "0.0.0.0", () => console.log(`⚡ Skyhigh Arbitrage Active on ${PORT}`));
